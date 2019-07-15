@@ -1,6 +1,9 @@
 package com.example.mvvmresposive.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelStore;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.Observable;
@@ -14,6 +17,7 @@ import com.example.mvvmresposive.data.api.Api;
 import com.example.mvvmresposive.data.model.Tuvungapi;
 import com.example.mvvmresposive.data.model.Wordapi;
 import com.example.mvvmresposive.data.service.Dataapi;
+import com.example.mvvmresposive.viewmodel.Mainviewmodel;
 
 import java.util.ArrayList;
 
@@ -27,15 +31,19 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText edtEn,edtVn;
-    Button btnAddword,btnCancel;
-    RecyclerView recyclerView;
+    Mainviewmodel mainviewmodel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
+        mainviewmodel = ViewModelProviders.of(this).get(Mainviewmodel.class);
+        mainviewmodel.getTuvungapiLiveData().observe(this, new Observer<Tuvungapi>() {
+            @Override
+            public void onChanged(Tuvungapi tuvungapi) {
+                ArrayList<Wordapi> wordapis = new ArrayList<>();
+                Log.d("BBB",wordapis.size() + "");
+            }
+        });
     }
 }
