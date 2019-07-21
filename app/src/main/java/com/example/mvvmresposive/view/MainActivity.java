@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.lifecycle.ViewModelStore;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.Observable;
@@ -22,7 +23,10 @@ import com.example.mvvmresposive.api.response.WordResponse;
 import com.example.mvvmresposive.base.BaseActivity;
 import com.example.mvvmresposive.event.LoadingEvent;
 import com.example.mvvmresposive.event.MessageCallback;
+import com.example.mvvmresposive.model.Word;
 import com.example.mvvmresposive.viewmodel.Mainviewmodel;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends BaseActivity<Mainviewmodel> {
@@ -31,6 +35,7 @@ public class MainActivity extends BaseActivity<Mainviewmodel> {
     Button btnAddword,btnCancel;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    WordAdapter wordAdapter;
 
     @Override
     public int getLayoutId() {
@@ -45,6 +50,7 @@ public class MainActivity extends BaseActivity<Mainviewmodel> {
         btnCancel = findViewById(R.id.buttonCancel);
         recyclerView = findViewById(R.id.recyclerviewWords);
         progressBar = findViewById(R.id.progressBar);
+
     }
 
     @Override
@@ -59,7 +65,9 @@ public class MainActivity extends BaseActivity<Mainviewmodel> {
         mViewModel.tuVung.observe(this, new Observer<WordResponse>() {
             @Override
             public void onChanged(WordResponse wordResponse) {
-                Log.d("BBB",wordResponse.getWords().size() + "");
+                wordAdapter = new WordAdapter((ArrayList<Word>) wordResponse.getWords(),progressBar);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                recyclerView.setAdapter(wordAdapter);
             }
         });
         mViewModel.getWord();
