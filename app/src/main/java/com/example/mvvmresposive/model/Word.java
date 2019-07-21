@@ -1,9 +1,9 @@
-package com.example.mvvmresposive.data.model;
+package com.example.mvvmresposive.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Wordapi {
+public class Word {
 
     @SerializedName("_id")
     @Expose
@@ -61,4 +61,7 @@ public class Wordapi {
         this.isMemorized = isMemorized;
     }
 
+    public static boolean validate(String en, String vn) {
+        return  !en.isEmpty() && !vn.isEmpty();
+    }
 }
